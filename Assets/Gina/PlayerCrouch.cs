@@ -7,10 +7,10 @@ public class PlayerCrouch : MonoBehaviour
     // get collider from player
     PlayerController playerCollider;
     public Transform groundCheck;
+    public LayerMask ground;
 
     public float startSpeed;
     public float slowSpeed;
-    public LayerMask ground;
 
     // Start is called before the first frame update
     void Start()
