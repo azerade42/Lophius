@@ -6,11 +6,9 @@ public class PlayerCrouch : MonoBehaviour
 {
     // get collider from player
     PlayerController playerCollider;
+
     public Transform groundCheck;
     public LayerMask ground;
-
-    public float startSpeed;
-    public float slowSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -27,14 +25,15 @@ public class PlayerCrouch : MonoBehaviour
             Debug.Log("Left Shift");
             // change speed and height if crouching
             playerCollider.transform.localScale = new Vector3 (100f, 100f, 100f);
-            playerCollider.speed = slowSpeed;
+            playerCollider.speed = 3f;
+            //isGrounded = false;
         }
 
         else
         {
             // change speed and height back to normal when NOT crouching
             playerCollider.transform.localScale = new Vector3 (100f, 200f, 100f);
-            playerCollider.speed = startSpeed;
+            playerCollider.speed = 5f;
         }
     }
 

@@ -16,6 +16,13 @@ public class PlayerController : MonoBehaviour
     // rigidbody
     Rigidbody rb;
 
+    // hidden when in sea anemone
+    public static bool hidden = false;
+
+    // count
+    public int count = 0;
+    public int currentCount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,12 +41,30 @@ public class PlayerController : MonoBehaviour
         // ascend
         if (Input.GetKey(KeyCode.Space))
         {
+            Debug.Log("space pressed");
             transform.Translate(0, Time.deltaTime * ascendSpeed, 0);
         }
         // decend
         if (Input.GetKey(KeyCode.LeftShift))
         {
+            Debug.Log("left shift pressed");
             transform.Translate(0, -Time.deltaTime * descendSpeed, 0);
         }
+    }
+
+    // hidden state for when hidding in sea anemone
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "sea anemone")
+        {
+            hidden = true;
+            Debug.Log("hidden status = " + hidden);
+        }
+    }
+
+    public void UpdateCount(int count)
+    {
+        currentCount += count;
+        Debug.Log("Count: " + currentCount);
     }
 }
