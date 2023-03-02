@@ -59,6 +59,8 @@ public class CoreAI : MonoBehaviour
     // This float holds a value that we determine so we can manipulate the NavMeshAgent's built in speed variable.
     [SerializeField]
     private float _speed;
+    [SerializeField]
+    private float _attackSpeed;
 
     // This float will hold how long it has been since the AI has "seen" the player. We will use this so the AI can lose track of the player.
     private float _timeSinceSeenPlayer;
@@ -66,7 +68,7 @@ public class CoreAI : MonoBehaviour
     // WalkRadius is a slider that dictates how far away a randomly generated waypoint can spawn from the AI's current position. Larger values mean a much larger roam.
     [Range(0, 500)] public float walkRadius;
 
-
+    public bool playerCaught;
 
     // The Radius of the circle that limits each AI's vision distance.
     public float _FOVRadius = 20f;
@@ -99,6 +101,10 @@ public class CoreAI : MonoBehaviour
     public Material _enemySearchingColor;
     public Material _enemyAttackingColor;
     public Material _enemyFleeingColor;
+    
+    public Light bulbLight;
+
+    public Animator anim;
 
     // Grabbing a reference to the NavMeshAgent Unity Component. The NavMeshAgent allows us to move the AI and to limit the area(s) it is allowed to enter.
     private NavMeshAgent _navMeshAgent;
@@ -118,7 +124,11 @@ public class CoreAI : MonoBehaviour
         switch (_AIState)
         {
             case AIState.Passive:
+
                 ChangeRendererColors(_enemyWanderingColor);
+                _navMeshAgent.speed = _speed;
+                anim.SetBool("isChasingPlayer", _isChasingPlayer);
+
                 if (_randomWander == true)
                 {
                     Wander();
@@ -152,7 +162,8 @@ public class CoreAI : MonoBehaviour
                 else
                 {
                     ChasePlayer();
-                    _navMeshAgent.speed = 10;
+                    _navMeshAgent.speed = _attackSpeed;
+                    anim.SetBool("isChasingPlayer", _isChasingPlayer);
 
                 }
                 if (_canSeePlayer == false)
@@ -305,7 +316,7 @@ public class CoreAI : MonoBehaviour
         _navMeshAgent.speed = _speed;
         _IAmWaiting = false;
         }
-        private void ChasePlayer()
+    private void ChasePlayer()
     {
         _isChasingPlayer = true;
         _navMeshAgent.destination = _player.transform.position;
@@ -315,7 +326,7 @@ public class CoreAI : MonoBehaviour
         }
         else
         {
-            ChangeRendererColors(_enemySearchingColor);
+            // ChangeRendererColors(_enemySearchingColor);
         }
         FieldOfViewCheck();
     }
@@ -332,6 +343,22 @@ public class CoreAI : MonoBehaviour
         foreach (Renderer r in _materialColors)
         {
             r.material = newMat;
+        }
+
+        // float scaledTime = t * (float) (LENGHT - 1);
+        // Color oldColor = _colors[(int) scaledTime];
+        // Color newColor = _colors[(int) (scaledTime + 1f)];
+        // float newT = scaledTime - Mathf.Round(scaledTime); 
+
+        bulbLight.color = newMat.color;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player") && !playerCaught)
+        {
+            playerCaught = true;
+            print("OM NOM NOM NOM NOM NOM NOM");
         }
     }
 }
