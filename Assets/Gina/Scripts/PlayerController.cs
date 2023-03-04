@@ -23,6 +23,14 @@ public class PlayerController : MonoBehaviour
     public int count = 0;
     public int currentCount;
 
+    // check if crouching
+    PlayerCrouch playerCrouch;
+
+    void Awake()
+    {
+        playerCrouch = gameObject.GetComponent<PlayerCrouch>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,16 +58,20 @@ public class PlayerController : MonoBehaviour
             Debug.Log("left shift pressed");
             transform.Translate(0, -Time.deltaTime * descendSpeed, 0);
         }
+        //Debug.Log("hidden status = " + hidden);
     }
 
     // hidden state for when hidding in sea anemone
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "sea anemone")
+        if (other.gameObject.CompareTag("sea anemone") && playerCrouch.isCrouching == true)
         {
             hidden = true;
             Debug.Log("hidden status = " + hidden);
+            Debug.Log("crouching status = " + playerCrouch.isCrouching);
         }
+        else
+            hidden = false;
     }
 
     public void UpdateCount(int count)

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - CinemachineTarget
   - Floor
+  - sea anemone
+  - throw
+  - Walls
   layers:
   - Default
   - TransparentFX
