@@ -23,11 +23,15 @@ public class PlayerController : MonoBehaviour
     public int count = 0;
     public int currentCount;
 
+    // animator
+    private Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
         // rigidbody
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,6 +41,18 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
         float vertical = Input.GetAxis("Vertical") * Time.deltaTime * speed;
         transform.Translate(horizontal, 0, vertical);
+
+        if (horizontal != 0)
+        {
+            
+            animator.SetBool("Moving", true);
+        }
+
+        else if (horizontal == 0)
+        {
+          
+            animator.SetBool("Moving", false);
+        }
 
         // ascend
         if (Input.GetKey(KeyCode.Space))
