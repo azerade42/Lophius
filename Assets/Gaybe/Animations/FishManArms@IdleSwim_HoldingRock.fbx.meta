@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 37d95889fc5d7074f9dccbc2145c3540
+guid: 1ce3cd9295ffbbc419d83775c38d507c
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: IdleSwim
+      name: IdleSwim_HoldingRock
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1
-      lastFrame: 200
+      lastFrame: 198
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -117,7 +117,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 100
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
