@@ -106,6 +106,13 @@ public class CoreAI : MonoBehaviour
 
     public Animator anim;
 
+    public AudioSource audioSource;
+    public AudioClip marshyNoise;
+    public AudioClip foundPlayer;
+    public AudioClip marshyRoar;
+    public AudioClip marshyHit;
+    public AudioClip marshyDeath;
+
     // Grabbing a reference to the NavMeshAgent Unity Component. The NavMeshAgent allows us to move the AI and to limit the area(s) it is allowed to enter.
     private NavMeshAgent _navMeshAgent;
 
@@ -203,6 +210,7 @@ public class CoreAI : MonoBehaviour
         _navMeshAgent.destination = _waypoints[_nextWaypoint].position;
         _nextWaypoint = (_nextWaypoint + 1) % _waypoints.Length;
         _IAmWaiting = true;
+
         StartCoroutine(RandomWaitTimer());
     }
     private void FieldOfViewCheck()
@@ -359,7 +367,9 @@ public class CoreAI : MonoBehaviour
         {
             playerCaught = true;
             print("OM NOM NOM NOM NOM NOM NOM");
+
         }
     }
+
 }
 
