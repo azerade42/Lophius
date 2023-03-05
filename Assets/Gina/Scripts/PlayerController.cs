@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
 
     // hidden when in sea anemone
-    public static bool hidden = false;
+    public bool hidden = false;
 
     // count
     public int count = 0;
@@ -25,6 +25,14 @@ public class PlayerController : MonoBehaviour
 
     // animator
     private Animator animator;
+
+    // ability to be active for 5 seconds
+    public float isInvisible = 5f;
+    public bool invisibile = false;
+
+    // cooldown
+    public float cooldownTime = 20;
+    private float nextFireTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +79,16 @@ public class PlayerController : MonoBehaviour
             transform.Translate(0, -Time.deltaTime * descendSpeed, 0);
         }
 
-        
+        if (Time.time > nextFireTime)
+        {
+            if (Input.GetKey(KeyCode.Q) && !invisibile)
+            {
+                // cooldown
+                nextFireTime = Time.time + cooldownTime;
+                // ability in use again
+                StartCoroutine(Ability(5f));
+            }
+        }        
     }
 
     // hidden state for when hidding in sea anemone
@@ -84,9 +101,28 @@ public class PlayerController : MonoBehaviour
             }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("sea anemone"))
+        {
+            hidden = false;
+            Debug.Log("hidden status = " + hidden);           
+        }
+    }
+
     public void UpdateCount(int count)
     {
         currentCount += count;
         Debug.Log("Count: " + currentCount);
+    }
+
+    // ability to be active for 5 seconds
+    IEnumerator Ability(float isInvisible)
+    {
+        Debug.Log("Invisibility started");
+        invisibile = true;
+        yield return new WaitForSeconds(isInvisible);
+        invisibile = false;
+        Debug.Log("Invisibility ended");
     }
 }
