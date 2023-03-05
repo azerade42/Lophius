@@ -31,7 +31,8 @@ public class PlayerController : MonoBehaviour
     {
         // rigidbody
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -42,17 +43,20 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical") * Time.deltaTime * speed;
         transform.Translate(horizontal, 0, vertical);
 
-        if (horizontal != 0)
-        {
-            
-            animator.SetBool("Moving", true);
-        }
+        //animator.SetFloat("Speed", speed);
 
-        else if (horizontal == 0)
-        {
-          
-            animator.SetBool("Moving", false);
-        }
+        // if (speed == 5f)
+        // {
+        //     Debug.Log("movin");
+        //     animator.SetFloat("Speed", Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+        // }
+        
+        // else if (speed == 0f)
+        // {
+        //     Debug.Log("not movin");
+        //     animator.SetFloat("Speed", 0f);
+        // }
+        
 
         // ascend
         if (Input.GetKey(KeyCode.Space))
@@ -66,16 +70,18 @@ public class PlayerController : MonoBehaviour
             Debug.Log("left shift pressed");
             transform.Translate(0, -Time.deltaTime * descendSpeed, 0);
         }
+
+        
     }
 
     // hidden state for when hidding in sea anemone
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "sea anemone")
-        {
-            hidden = true;
-            Debug.Log("hidden status = " + hidden);
-        }
+            if (other.gameObject.CompareTag("sea anemone"))
+            {
+                hidden = true;
+                Debug.Log("hidden status = " + hidden);
+            }
     }
 
     public void UpdateCount(int count)

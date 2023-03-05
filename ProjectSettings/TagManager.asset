@@ -8,6 +8,8 @@ TagManager:
   - Floor
   - sea anemone
   - throw
+  - Walls
+  - Trident
   layers:
   - Default
   - TransparentFX
