@@ -17,14 +17,16 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
 
     // hidden when in sea anemone
-    public static bool hidden = false;
+    public bool hidden = false;
+
+    public bool isMoving = false;
 
     // count
     public int count = 0;
     public int currentCount;
 
     // animator
-    private Animator animator;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
         // rigidbody
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
+        //animator.SetBool("Moving", true);
         
     }
 
@@ -43,19 +46,17 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical") * Time.deltaTime * speed;
         transform.Translate(horizontal, 0, vertical);
 
+         
         //animator.SetFloat("Speed", speed);
-
-        // if (speed == 5f)
-        // {
-        //     Debug.Log("movin");
-        //     animator.SetFloat("Speed", Mathf.Abs(horizontal) + Mathf.Abs(vertical));
-        // }
+      //  animator.SetBool("Moving", vertical != 0 || horizontal != 0);
+        if(horizontal != 0 || vertical != 0)
+        {
+            animator.SetBool("Moving", true);
+        }
+        else{
+            animator.SetBool("Moving", false)
+;        }
         
-        // else if (speed == 0f)
-        // {
-        //     Debug.Log("not movin");
-        //     animator.SetFloat("Speed", 0f);
-        // }
         
 
         // ascend
@@ -81,6 +82,11 @@ public class PlayerController : MonoBehaviour
             {
                 hidden = true;
                 Debug.Log("hidden status = " + hidden);
+            }
+
+            if(other.gameObject.CompareTag("throw"))
+            {
+                if (Input.GetKeyDown(KeyCode.E));
             }
     }
 
