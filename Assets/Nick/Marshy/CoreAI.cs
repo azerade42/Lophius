@@ -106,12 +106,12 @@ public class CoreAI : MonoBehaviour
 
     public Animator anim;
 
+    private bool isCaught = false;
+
     public AudioSource audioSource;
-    public AudioClip marshyNoise;
-    public AudioClip foundPlayer;
-    public AudioClip marshyRoar;
-    public AudioClip marshyHit;
-    public AudioClip marshyDeath;
+    public AudioClip detectPlayerSound;
+    public AudioClip marshyHitSound;
+    public AudioClip marshyDeathSound;
 
     // Grabbing a reference to the NavMeshAgent Unity Component. The NavMeshAgent allows us to move the AI and to limit the area(s) it is allowed to enter.
     private NavMeshAgent _navMeshAgent;
@@ -122,6 +122,8 @@ public class CoreAI : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         //_player = GameObject.Find("Player");
         StartCoroutine(CheckForPlayer());
+
+        audioSource = GetComponent<AudioSource>();
 
         _waypoints = waypointManager._trackedWaypoints;
 
@@ -169,6 +171,12 @@ public class CoreAI : MonoBehaviour
                 else
                 {
                     ChasePlayer();
+
+                    if (!isCaught)
+                    {  
+                        isCaught = true;
+                        StartCoroutine(playCaughtSound());
+                    } 
                     _navMeshAgent.speed = _attackSpeed;
                     anim.SetBool("isChasingPlayer", _isChasingPlayer);
 
@@ -180,6 +188,13 @@ public class CoreAI : MonoBehaviour
                     break;
         }
         ProximityCheck();
+    }
+
+    IEnumerator playCaughtSound()
+    {
+        PlaySound(detectPlayerSound);
+        yield return new WaitForSeconds(detectPlayerSound.length);
+        isCaught = false;
     }
 
     private void Wander()
@@ -371,5 +386,9 @@ public class CoreAI : MonoBehaviour
         }
     }
 
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
+    }
 }
 

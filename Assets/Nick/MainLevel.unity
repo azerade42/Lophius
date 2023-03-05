@@ -3778,7 +3778,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.071
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -7328,6 +7328,21 @@ PrefabInstance:
       propertyPath: marshyNoise
       value: 
       objectReference: {fileID: 8300000, guid: 80af3b24d76c26243bfcf952b60de7e2, type: 3}
+    - target: {fileID: 1771933387796253246, guid: f822b41384c658045a927d71b1e9b273,
+        type: 3}
+      propertyPath: marshyHitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 7014ec3a79f82744cba805c782dda8c9, type: 3}
+    - target: {fileID: 1771933387796253246, guid: f822b41384c658045a927d71b1e9b273,
+        type: 3}
+      propertyPath: marshyDeathSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 5051015671f357e4c8c5b4befe45a46f, type: 3}
+    - target: {fileID: 1771933387796253246, guid: f822b41384c658045a927d71b1e9b273,
+        type: 3}
+      propertyPath: detectPlayerSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a383334bf408384b9f83eec58a5e394, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f822b41384c658045a927d71b1e9b273, type: 3}
 --- !u!33 &1469794744267204068
