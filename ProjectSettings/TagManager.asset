@@ -10,6 +10,10 @@ TagManager:
   - throw
   - Walls
   - Trident
+  - flash
+  - Enemy
+  - test trident not beam
+  - beam
   layers:
   - Default
   - TransparentFX
@@ -23,8 +27,8 @@ TagManager:
   - Ground
   - Obstruction
   - Glow
-  - 
-  - 
+  - Flash
+  - Distraction
   - 
   - 
   - 

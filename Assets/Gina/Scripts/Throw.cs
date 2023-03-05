@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThrowFlash : MonoBehaviour
+public class Throw : MonoBehaviour
 {
     public Transform player;
     public Transform playerCam;

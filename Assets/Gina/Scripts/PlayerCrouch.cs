@@ -33,7 +33,7 @@ public class PlayerCrouch : MonoBehaviour
         {
             // change speed and height back to normal when NOT crouching
             playerCollider.transform.localScale = new Vector3 (100f, 200f, 100f);
-            playerCollider.speed = 5f;
+            playerCollider.speed = 15f;
         }
     }
 

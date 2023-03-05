@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Analytics;
+using UnityEngine.SceneManagement;
 
 public class CoreAI : MonoBehaviour
 {
@@ -109,6 +110,19 @@ public class CoreAI : MonoBehaviour
     // Grabbing a reference to the NavMeshAgent Unity Component. The NavMeshAgent allows us to move the AI and to limit the area(s) it is allowed to enter.
     private NavMeshAgent _navMeshAgent;
 
+    // player
+    private PlayerController playerController;
+
+    // freeze om impact of crystal for certain amount of time
+    public float isFrozen = 20f;
+
+    // awake
+    void Awake()
+    {
+        // player
+        playerController = GameObject.FindObjectOfType<PlayerController>();
+    }
+
     private void Start()
     {
         // _enemyColor = GetComponent<Renderer>();
@@ -121,6 +135,7 @@ public class CoreAI : MonoBehaviour
     }
     private void Update()
     {
+        PlayerHidden();
         switch (_AIState)
         {
             case AIState.Passive:
@@ -353,12 +368,71 @@ public class CoreAI : MonoBehaviour
         bulbLight.color = newMat.color;
     }
 
+    /* made an end game on collison
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && !playerCaught)
         {
             playerCaught = true;
             print("OM NOM NOM NOM NOM NOM NOM");
+        }
+    }*/
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            playerCaught = true;
+            //print("OM NOM NOM NOM NOM NOM NOM");
+            //Debug.Log("Load: LoseScreen");
+            //SceneManager.LoadScene("LoseScreen");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 12)
+        {
+            Debug.Log("Flash Collison");
+            StartCoroutine(Freeze(5f));
+        }
+
+        if (other.gameObject.layer == 13)
+        {
+            //can't figure out will come back to later
+            /*_canSeePlayer = true;
+            _isChasingPlayer = true;*/
+            Destroy(other.gameObject);
+            Debug.Log("Distraction collison");
+        }
+    }
+
+    IEnumerator Freeze(float isFrozen)
+    {
+        Debug.Log("Freeze started");
+        _speed = 0;
+        _attackSpeed = 0;
+        yield return new WaitForSeconds(isFrozen);
+        _speed = 7;
+        _attackSpeed = 12;
+        Debug.Log("Freeze ended");
+    }
+
+    void PlayerHidden()
+    {
+        if (playerController.hidden == true)
+        {
+            _isChasingPlayer = false;
+            //Debug.Log("is chasing = " + _isChasingPlayer);
+            _canSeePlayer = false;
+            //Debug.Log("see player = " + _canSeePlayer);
+        }
+        if (playerController.invisibile == true)
+        {
+            _isChasingPlayer = false;
+            //Debug.Log("is chasing = " + _isChasingPlayer);
+            _canSeePlayer = false;
+            //Debug.Log("see player = " + _canSeePlayer);
         }
     }
 }
