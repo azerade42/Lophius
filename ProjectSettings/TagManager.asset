@@ -10,6 +10,7 @@ TagManager:
   - throw
   - Walls
   - Trident
+  - Crystal
   layers:
   - Default
   - TransparentFX

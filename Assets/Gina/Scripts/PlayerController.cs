@@ -28,12 +28,32 @@ public class PlayerController : MonoBehaviour
     // animator
     public Animator animator;
 
+    // pickup iutems
+    private bool keyDown;
+    public Transform itemSlot;
+
+    public float throwForce;
+    public float throwUpwardForce; 
+    public float flashSpeed = 5;
+
+    public bool holdingCrystal = false;
+    private GameObject crystal; 
+    public GameObject crystalThrow; 
+    public GameObject crystalShoot;
+   // Vector3 m_NewForce;
+ 
+
     // Start is called before the first frame update
     void Start()
     {
         // rigidbody
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
+        crystal = GameObject.Find("Crystal_Hand");
+        crystal.SetActive(false);
+        crystalShoot = Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
+      //  m_NewForce = new Vector3(-5.0f, 1.0f, 0.0f);
+        crystalShoot.SetActive(false);
         //animator.SetBool("Moving", true);
         
     }
@@ -53,9 +73,10 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Moving", true);
         }
-        else{
-            animator.SetBool("Moving", false)
-;        }
+        else
+        {
+            animator.SetBool("Moving", false);        
+        }
         
         
 
@@ -72,8 +93,52 @@ public class PlayerController : MonoBehaviour
             transform.Translate(0, -Time.deltaTime * descendSpeed, 0);
         }
 
+        //pickups
+        keyDown = Input.GetKeyDown(KeyCode.E);
+
+        if (Input.GetMouseButtonDown(0) && currentCount == 1 && crystal)
+        {
+          //  Rigidbody crystalRb = crystalThrow.GetComponent<Rigidbody>();
+            
+            Throw(); 
+            animator.SetTrigger("ThrowCrystal");
+           
+            crystal.SetActive(false);
+            
+           // Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
+           // crystalThrow.transform.parent = itemSlot.transform;
+            //crystalThrow.gameObject.GetComponent<Rigidbody>().velocity = itemSlot.transform.forward * 500f;
+         //   crystalRb.AddForce(throwForce, ForceMode.Impulse);
+            animator.SetBool("HoldCrystal", false);
+            
+            
+        }
         
     }
+
+    private void Throw()
+    {
+      // Rigidbody crystalRb = crystalThrow.GetComponent<Rigidbody>();
+       //var newProjectile =  Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
+       //Rigidbody crystalRb = crystalThrow.GetComponent<Rigidbody>();
+       //Vector3 forcetoAdd = itemSlot.transform.forward * throwForce + transform.up * throwUpwardForce; 
+        //crystalThrow.gameObject.GetComponent<Rigidbody>().velocity = itemSlot.forward * 500f;
+        //crystalThrow.gameObject.GetComponent<Rigidbody>().AddForce(forcetoAdd, ForceMode.Impulse);
+       // crystalRb.AddForce(forcetoAdd, ForceMode.Impulse); 
+      // newProjectile.velocity = transform.TransformDirection( Vector3( 0, 0, speed));
+        crystalShoot.SetActive(true);
+        crystalThrow.transform.position = itemSlot.transform.position;
+       // Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
+        // //crystalThrow.gameObject.GetComponent<Rigidbody>().AddForce(itemSlot.forward * throwForce * flashSpeed);
+        crystalThrow.gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 100000);
+        // var dir : Vector3 = itemSlot.forward;
+        // var bulletInstant : Rigidbody = Instantiate(crystalThrow, itemSlot.position, itemSlot.rotation);
+        // bulletInstant.AddForce(dir * 2000);
+        UpdateCount(-1); 
+
+    }
+
+    
 
     // hidden state for when hidding in sea anemone
     void OnTriggerEnter(Collider other)
@@ -84,9 +149,16 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("hidden status = " + hidden);
             }
 
-            if(other.gameObject.CompareTag("throw"))
+            if( other.CompareTag("Crystal")  && currentCount <= 1)
             {
-                if (Input.GetKeyDown(KeyCode.E));
+                    
+                    animator.SetBool("HoldCrystal", true);
+                    holdingCrystal = true; 
+                    crystal.SetActive(true);
+                    Destroy(other.gameObject);
+                    
+                    UpdateCount(1);
+
             }
     }
 
