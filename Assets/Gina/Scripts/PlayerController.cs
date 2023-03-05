@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("sea anemone"))
         {
             hidden = true;
-            //Debug.Log("hidden status = " + hidden);           
+            Debug.Log("hidden status = " + hidden);           
         }
     }
 
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("sea anemone"))
         {
             hidden = false;
-            //Debug.Log("hidden status = " + hidden);           
+            Debug.Log("hidden status = " + hidden);           
         }
     }
 
@@ -119,10 +119,10 @@ public class PlayerController : MonoBehaviour
     // ability to be active for 5 seconds
     IEnumerator Ability(float isInvisible)
     {
-        //Debug.Log("Invisibility started");
+        Debug.Log("Invisibility started");
         invisibile = true;
         yield return new WaitForSeconds(isInvisible);
         invisibile = false;
-        //Debug.Log("Invisibility ended");
+        Debug.Log("Invisibility ended");
     }
 }
