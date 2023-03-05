@@ -15,22 +15,26 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        timeElapsed += Time.deltaTime; 
-        if(timeElapsed > delayBeforeLoading)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+        // timeElapsed += Time.deltaTime; 
+        // if(timeElapsed > delayBeforeLoading)
+        // {
+        //     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // }
     }
 
     public void PlayGame()
     {
-       // animator.SetTrigger("Bite");
-        
-       //yield return new WaitForSeconds(1);
-      // StartCoroutine(ButtonDelay());
+        // animator.SetTrigger("Bite");
+
+        // yield return new WaitForSeconds(1);
+        // StartCoroutine(ButtonDelay());
 
        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        
+        // timeElapsed += Time.deltaTime; 
+        // if(timeElapsed > delayBeforeLoading)
+        // {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // }
     }
 
     // IEnumerator ButtonDelay()
