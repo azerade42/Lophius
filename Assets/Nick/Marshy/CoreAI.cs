@@ -385,8 +385,27 @@ public class CoreAI : MonoBehaviour
             playerCaught = true;
             //print("OM NOM NOM NOM NOM NOM NOM");
             //Debug.Log("Load: LoseScreen");
-            //SceneManager.LoadScene("LoseScreen");
+            StartCoroutine(WaitForLoseScreen());
         }
+
+        if (collision.gameObject.tag == "beam")
+        {
+            Debug.Log("Hit Mushy");
+            //SceneManager.LoadScene("WinScene");
+            StartCoroutine(WaitForWinScreen());
+        }
+    }
+
+    IEnumerator WaitForLoseScreen()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("LoseScreen");
+    }
+
+    IEnumerator WaitForWinScreen()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("WinScene");
     }
 
     void OnTriggerEnter(Collider other)
