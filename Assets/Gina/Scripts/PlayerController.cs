@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -31,8 +32,10 @@ public class PlayerController : MonoBehaviour
     public bool invisibile = false;
 
     // cooldown
-    public float cooldownTime = 20;
-    private float nextFireTime = 0;
+    public float cooldownTime = 20f;
+    private float nextFireTime = 0f;
+
+    public TextMeshProUGUI invisibilityText;
 
     // Start is called before the first frame update
     void Start()
@@ -121,8 +124,10 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Invisibility started");
         invisibile = true;
+        invisibilityText.gameObject.SetActive(true);
         yield return new WaitForSeconds(isInvisible);
         invisibile = false;
+        invisibilityText.gameObject.SetActive(false);
         Debug.Log("Invisibility ended");
     }
 }

@@ -12567,6 +12567,7 @@ MonoBehaviour:
     m_Bits: 1024
   _canSeePlayer: 0
   _isChasingPlayer: 0
+  _isDead: 0
   _IAmWaiting: 0
   _randomWaitTime: 0
   _alwaysMoving: 0
@@ -12592,11 +12593,10 @@ MonoBehaviour:
   bulbLight: {fileID: 0}
   anim: {fileID: 0}
   audioSource: {fileID: 0}
-  marshyNoise: {fileID: 0}
-  foundPlayer: {fileID: 0}
-  marshyRoar: {fileID: 0}
-  marshyHit: {fileID: 0}
-  marshyDeath: {fileID: 0}
+  detectPlayerSound: {fileID: 0}
+  marshyHitSound: {fileID: 0}
+  marshyDeathSound: {fileID: 0}
+  isFrozen: 20
 --- !u!195 &1398852140
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -14408,6 +14408,7 @@ MonoBehaviour:
     m_Bits: 1024
   _canSeePlayer: 0
   _isChasingPlayer: 0
+  _isDead: 0
   _IAmWaiting: 0
   _randomWaitTime: 0
   _alwaysMoving: 0
@@ -14439,11 +14440,10 @@ MonoBehaviour:
   bulbLight: {fileID: 274983002}
   anim: {fileID: 334154434}
   audioSource: {fileID: 0}
-  marshyNoise: {fileID: 0}
-  foundPlayer: {fileID: 0}
-  marshyRoar: {fileID: 0}
-  marshyHit: {fileID: 0}
-  marshyDeath: {fileID: 0}
+  detectPlayerSound: {fileID: 0}
+  marshyHitSound: {fileID: 0}
+  marshyDeathSound: {fileID: 0}
+  isFrozen: 20
 --- !u!195 &1616256141
 NavMeshAgent:
   m_ObjectHideFlags: 0
