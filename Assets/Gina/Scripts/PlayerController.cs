@@ -37,9 +37,14 @@ public class PlayerController : MonoBehaviour
     public float flashSpeed = 5;
 
     public bool holdingCrystal = false;
-    private GameObject crystal; 
-    public GameObject crystalThrow; 
-    public GameObject crystalShoot;
+
+    // Crystal instantiated that actually gets thrown
+    public GameObject crystalThrow;
+
+    // Crystal in hand
+    public Transform crystalHand;
+
+
    // Vector3 m_NewForce;
  
 
@@ -49,12 +54,14 @@ public class PlayerController : MonoBehaviour
         // rigidbody
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
-        crystal = GameObject.Find("Crystal_Hand");
-        crystal.SetActive(false);
-        crystalShoot = Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
-      //  m_NewForce = new Vector3(-5.0f, 1.0f, 0.0f);
-        crystalShoot.SetActive(false);
+
+        crystalHand.gameObject.SetActive(false);
+        crystalThrow = Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
+        crystalThrow.SetActive(false);
+
+
         //animator.SetBool("Moving", true);
+         //  m_NewForce = new Vector3(-5.0f, 1.0f, 0.0f);
         
     }
 
@@ -94,16 +101,16 @@ public class PlayerController : MonoBehaviour
         }
 
         //pickups
-        keyDown = Input.GetKeyDown(KeyCode.E);
-
-        if (Input.GetMouseButtonDown(0) && currentCount == 1 && crystal)
+    
+        // Throw crystal
+        if (Input.GetMouseButtonDown(0) && currentCount == 1 && crystalHand.gameObject.activeInHierarchy)
         {
           //  Rigidbody crystalRb = crystalThrow.GetComponent<Rigidbody>();
             
             Throw(); 
             animator.SetTrigger("ThrowCrystal");
            
-            crystal.SetActive(false);
+            crystalHand.gameObject.SetActive(false);
             
            // Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
            // crystalThrow.transform.parent = itemSlot.transform;
@@ -126,11 +133,13 @@ public class PlayerController : MonoBehaviour
         //crystalThrow.gameObject.GetComponent<Rigidbody>().AddForce(forcetoAdd, ForceMode.Impulse);
        // crystalRb.AddForce(forcetoAdd, ForceMode.Impulse); 
       // newProjectile.velocity = transform.TransformDirection( Vector3( 0, 0, speed));
-        crystalShoot.SetActive(true);
+
         crystalThrow.transform.position = itemSlot.transform.position;
+        //crystalThrow = Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
+        crystalThrow.SetActive(true);
        // Instantiate(crystalThrow, itemSlot.position, Quaternion.identity);
         // //crystalThrow.gameObject.GetComponent<Rigidbody>().AddForce(itemSlot.forward * throwForce * flashSpeed);
-        crystalThrow.gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 100000);
+        crystalThrow.gameObject.GetComponent<Rigidbody>().AddRelativeForce(itemSlot.right * throwForce);
         // var dir : Vector3 = itemSlot.forward;
         // var bulletInstant : Rigidbody = Instantiate(crystalThrow, itemSlot.position, itemSlot.rotation);
         // bulletInstant.AddForce(dir * 2000);
@@ -149,16 +158,19 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("hidden status = " + hidden);
             }
 
-            if( other.CompareTag("Crystal")  && currentCount <= 1)
+            if( other.CompareTag("Crystal") && currentCount <= 1)
             {
-                    
-                    animator.SetBool("HoldCrystal", true);
-                    holdingCrystal = true; 
-                    crystal.SetActive(true);
-                    Destroy(other.gameObject);
-                    
-                    UpdateCount(1);
+                // holding crystal animation
+                animator.SetBool("HoldCrystal", true);
+                holdingCrystal = true;
 
+                // show crystal in hand
+                crystalHand.gameObject.SetActive(true);
+                // destroy crystal pickup
+                Destroy(other.gameObject);
+                
+                // is holding something
+                UpdateCount(1);
             }
     }
 
