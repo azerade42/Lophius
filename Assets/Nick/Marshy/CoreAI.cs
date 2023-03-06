@@ -431,6 +431,7 @@ public class CoreAI : MonoBehaviour
         {
             Debug.Log("Hit Marshy");
             //SceneManager.LoadScene("WinScene");
+            PlaySound(marshyDeathSound);
             StartCoroutine(WaitForWinScreen());
         }
     }
@@ -460,6 +461,7 @@ public class CoreAI : MonoBehaviour
         if (other.gameObject.layer == 12)
         {
             Debug.Log("Flash Collison");
+            PlaySound(marshyHitSound);
             StartCoroutine(Freeze(5f));
         }
 

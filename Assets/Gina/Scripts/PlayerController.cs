@@ -37,13 +37,14 @@ public class PlayerController : MonoBehaviour
 
     public TextMeshProUGUI invisibilityText;
 
+
     // Start is called before the first frame update
     void Start()
     {
         // rigidbody
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
-        
+    
     }
 
     // Update is called once per frame
@@ -130,4 +131,9 @@ public class PlayerController : MonoBehaviour
         invisibilityText.gameObject.SetActive(false);
         Debug.Log("Invisibility ended");
     }
+
+    // public void PlaySound(AudioClip clip)
+    // {
+    //     audioSource.PlayOneShot(clip);
+    // }
 }

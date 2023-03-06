@@ -16,11 +16,19 @@ public class ThrowFlash : MonoBehaviour
     // player
     private PlayerController playerController;
 
+    public AudioSource audioSource;
+    public AudioClip hitMarshy;
+
     // awake
     void Awake()
     {
         // player
         playerController = GameObject.FindObjectOfType<PlayerController>();
+    }
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
