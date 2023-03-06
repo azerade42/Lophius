@@ -15,14 +15,20 @@ public class TridentScript : MonoBehaviour
     public GameObject Bullet;
     public float Bullet_Forward_Force;
 
+    public Transform tridentHand;
+
     // player
     private PlayerController playerController;
+
+        // animator
+    public Animator animator;
 
     // awake
     void Awake()
     {
         // player
         playerController = GameObject.FindObjectOfType<PlayerController>();
+        animator = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -40,9 +46,12 @@ public class TridentScript : MonoBehaviour
         if (hasPlayer && (Input.GetKeyDown(KeyCode.E)) && (gameObject.tag == "Trident"))
         {
             Debug.Log("Trident");
+            animator.SetBool("HoldTrident", true);
             GetComponent<Rigidbody>().isKinematic = true;
             beingCarried = true;
+            //transform.position = playerCam.transform.position;
             transform.parent = playerCam;
+            transform.Rotate (0f, 90f, 0f);
         }
         if (beingCarried)
         {
@@ -55,6 +64,7 @@ public class TridentScript : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
+                animator.SetTrigger("ShootTrident");
                 GameObject Temporary_Bullet_Handler;
                 Temporary_Bullet_Handler = Instantiate(Bullet,Bullet_Emitter.transform.position,Bullet_Emitter.transform.rotation) as GameObject;
                 Temporary_Bullet_Handler.transform.Rotate(Vector3.left * 90);

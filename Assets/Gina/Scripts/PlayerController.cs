@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -52,11 +53,21 @@ public class PlayerController : MonoBehaviour
     public Transform rockHand;
     private bool isNearRock = false; 
 
-    // trident 
-    public bool holdingTrident = false;
-  //  public GameObject tridentShoot;
-    public Transform tridentHand;
-    private bool isNearTrident = false; 
+//     // trident 
+//     public bool holdingTrident = false;
+//   //  public GameObject tridentShoot;
+//     public Transform tridentHand;
+//     private bool isNearTrident = false; 
+
+    // ability to be active for 5 seconds
+    public float isInvisible = 5f;
+    public bool invisibile = false;
+
+    // cooldown
+    public float cooldownTime = 20f;
+    private float nextFireTime = 0f;
+
+    public TextMeshProUGUI invisibilityText;
 
 
    // Vector3 m_NewForce;
@@ -77,7 +88,7 @@ public class PlayerController : MonoBehaviour
         rockThrow = Instantiate(rockThrow, itemSlot.position, Quaternion.identity);
         rockThrow.SetActive(false);
 
-        tridentHand.gameObject.SetActive(false);
+        //tridentHand.gameObject.SetActive(false);
        // tridentShoot = Instantiate(rockThrow, itemSlot.position, Quaternion.identity);
        // tridentShoot.SetActive(false);
 
@@ -126,7 +137,7 @@ public class PlayerController : MonoBehaviour
         {
             isNearCrystal = true; 
             isNearRock = true;
-            isNearTrident = true;
+          //  isNearTrident = true;
         }
 
         //pickups
@@ -157,15 +168,15 @@ public class PlayerController : MonoBehaviour
             }
 
                 //throw rock
-            if(tridentHand.gameObject.activeInHierarchy)
-            {
-               // TridentShoot(); 
-                animator.SetTrigger("ShootTrident");
+            // if(tridentHand.gameObject.activeInHierarchy)
+            // {
+            //    // TridentShoot(); 
+            //     animator.SetTrigger("ShootTrident");
            
-                //tridentHand.gameObject.SetActive(false);
+            //     //tridentHand.gameObject.SetActive(false);
 
-                //animator.SetBool("HoldTrident", false);
-            }
+            //     //animator.SetBool("HoldTrident", false);
+            // }
      
             
             
@@ -248,25 +259,37 @@ public class PlayerController : MonoBehaviour
                 // is holding something
                 UpdateCount(1);
             }
-            if(other.CompareTag("Trident") && currentCount <= 1 && isNearTrident)
-            {
-                // holding crystal animation
-                animator.SetBool("HoldTrident", true);
-                holdingTrident = true;
+            // if(other.CompareTag("Trident") && currentCount <= 1 && isNearTrident)
+            // {
+            //     // holding crystal animation
+            //     animator.SetBool("HoldTrident", true);
+            //     holdingTrident = true;
 
-                // show crystal in hand
-                tridentHand.gameObject.SetActive(true);
-                // destroy crystal pickup
-                Destroy(other.gameObject);
+            //     // show crystal in hand
+            //     tridentHand.gameObject.SetActive(true);
+            //     // destroy crystal pickup
+            //     Destroy(other.gameObject);
                 
-                // is holding something
-                UpdateCount(1);
-            }
+            //     // is holding something
+            //     UpdateCount(1);
+            // }
     }
 
     public void UpdateCount(int count)
     {
         currentCount += count;
         Debug.Log("Count: " + currentCount);
+    }
+
+        // ability to be active for 5 seconds
+    IEnumerator Ability(float isInvisible)
+    {
+        Debug.Log("Invisibility started");
+        invisibile = true;
+        invisibilityText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(isInvisible);
+        invisibile = false;
+        invisibilityText.gameObject.SetActive(false);
+        Debug.Log("Invisibility ended");
     }
 }
