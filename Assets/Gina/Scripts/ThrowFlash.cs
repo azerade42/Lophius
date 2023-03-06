@@ -16,9 +16,6 @@ public class ThrowFlash : MonoBehaviour
     // player
     private PlayerController playerController;
 
-    public AudioSource audioSource;
-    public AudioClip hitMarshy;
-
     // awake
     void Awake()
     {
@@ -26,13 +23,9 @@ public class ThrowFlash : MonoBehaviour
         playerController = GameObject.FindObjectOfType<PlayerController>();
     }
 
-    void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
-
     void Update()
     {
+        
         float dist = Vector3.Distance(gameObject.transform.position, player.position);
         if (dist <= 2.5f)
         {

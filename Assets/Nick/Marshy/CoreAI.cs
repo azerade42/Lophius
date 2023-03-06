@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Analytics;
-using UnityEngine.SceneManagement;
 
 public class CoreAI : MonoBehaviour
 {
@@ -30,11 +29,8 @@ public class CoreAI : MonoBehaviour
     public bool _canSeePlayer;
 
     // _isChasingPlayer informs us when the AI actively knows the location of the player.
-    public bool _isChasingPlayer = false;
+    public bool _isChasingPlayer;
 
-    public bool _isDead = false;
-
-    private bool winFlag = false;
 
     // _IAmWaiting informs us when the AI is holding a position
     [SerializeField]
@@ -110,29 +106,8 @@ public class CoreAI : MonoBehaviour
 
     public Animator anim;
 
-    private bool isCaught = false;
-
-    public AudioSource audioSource;
-    public AudioClip detectPlayerSound;
-    public AudioClip marshyHitSound;
-    public AudioClip marshyDeathSound;
-
-    // stuff from Gina
-    // player
-    private PlayerController playerController;
-
-    // freeze on impact of crystal for certain amount of time
-    public float isFrozen = 20f;
-
     // Grabbing a reference to the NavMeshAgent Unity Component. The NavMeshAgent allows us to move the AI and to limit the area(s) it is allowed to enter.
     private NavMeshAgent _navMeshAgent;
-
-    // awake
-    void Awake()
-    {
-        // player
-        playerController = GameObject.FindObjectOfType<PlayerController>();
-    }
 
     private void Start()
     {
@@ -140,8 +115,6 @@ public class CoreAI : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         //_player = GameObject.Find("Player");
         StartCoroutine(CheckForPlayer());
-
-        audioSource = GetComponent<AudioSource>();
 
         _waypoints = waypointManager._trackedWaypoints;
 
@@ -189,12 +162,6 @@ public class CoreAI : MonoBehaviour
                 else
                 {
                     ChasePlayer();
-
-                    if (!isCaught)
-                    {  
-                        isCaught = true;
-                        StartCoroutine(playCaughtSound());
-                    } 
                     _navMeshAgent.speed = _attackSpeed;
                     anim.SetBool("isChasingPlayer", _isChasingPlayer);
 
@@ -206,13 +173,6 @@ public class CoreAI : MonoBehaviour
                     break;
         }
         ProximityCheck();
-    }
-
-    IEnumerator playCaughtSound()
-    {
-        PlaySound(detectPlayerSound);
-        yield return new WaitForSeconds(detectPlayerSound.length);
-        isCaught = false;
     }
 
     private void Wander()
@@ -243,7 +203,6 @@ public class CoreAI : MonoBehaviour
         _navMeshAgent.destination = _waypoints[_nextWaypoint].position;
         _nextWaypoint = (_nextWaypoint + 1) % _waypoints.Length;
         _IAmWaiting = true;
-
         StartCoroutine(RandomWaitTimer());
     }
     private void FieldOfViewCheck()
@@ -359,14 +318,7 @@ public class CoreAI : MonoBehaviour
         }
     private void ChasePlayer()
     {
-        if (!winFlag)
-        {
-            _isChasingPlayer = true;
-        }
-        else
-        {
-            _isChasingPlayer = false;
-        }
+        _isChasingPlayer = true;
         _navMeshAgent.destination = _player.transform.position;
         if (_canSeePlayer == true)
         {
@@ -401,106 +353,12 @@ public class CoreAI : MonoBehaviour
         bulbLight.color = newMat.color;
     }
 
-    /*void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && !playerCaught)
         {
             playerCaught = true;
             print("OM NOM NOM NOM NOM NOM NOM");
-
-        }
-    }*/
-
-    public void PlaySound(AudioClip clip)
-    {
-        audioSource.PlayOneShot(clip);
-    }
-
-    // from Gina
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            playerCaught = true;
-            //print("OM NOM NOM NOM NOM NOM NOM");
-            //Debug.Log("Load: LoseScreen");
-            StartCoroutine(WaitForLoseScreen());
-        }
-
-        if (collision.gameObject.tag == "beam")
-        {
-            Debug.Log("Hit Marshy");
-            //SceneManager.LoadScene("WinScene");
-            PlaySound(marshyDeathSound);
-            StartCoroutine(WaitForWinScreen());
-        }
-    }
-
-    IEnumerator WaitForLoseScreen()
-    {
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("LoseScreen");
-    }
-
-    IEnumerator WaitForWinScreen()
-    {
-        _speed = 0;
-        _attackSpeed = 0;
-
-        winFlag = true;
-        _isChasingPlayer = false;
-        _isDead = true;
-        anim.SetBool("isDead", _isDead);
-
-        yield return new WaitForSeconds(3);
-        SceneManager.LoadScene("WinScene");
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 12)
-        {
-            Debug.Log("Flash Collison");
-            PlaySound(marshyHitSound);
-            StartCoroutine(Freeze(5f));
-        }
-
-        if (other.gameObject.layer == 13)
-        {
-            //can't figure out will come back to later
-            /*_canSeePlayer = true;
-            _isChasingPlayer = true;*/
-            Destroy(other.gameObject);
-            Debug.Log("Distraction collison");
-        }
-    }
-
-    IEnumerator Freeze(float isFrozen)
-    {
-        Debug.Log("Freeze started");
-        _speed = 0;
-        _attackSpeed = 0;
-        yield return new WaitForSeconds(isFrozen);
-        _speed = 7;
-        _attackSpeed = 12;
-        Debug.Log("Freeze ended");
-    }
-
-    void PlayerHidden()
-    {
-        if (playerController.hidden == true)
-        {
-            _isChasingPlayer = false;
-            //Debug.Log("is chasing = " + _isChasingPlayer);
-            _canSeePlayer = false;
-            //Debug.Log("see player = " + _canSeePlayer);
-        }
-        if (playerController.invisibile == true)
-        {
-            _isChasingPlayer = false;
-            //Debug.Log("is chasing = " + _isChasingPlayer);
-            _canSeePlayer = false;
-            //Debug.Log("see player = " + _canSeePlayer);
         }
     }
 }

@@ -11,15 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Nick/TitleScreen.unity
     guid: e53a240e5b431ac4c98b87ac9f6451f9
-  - enabled: 1
-    path: Assets/Nick/MainLevel.unity
-    guid: 23175967033e83e4d874990039be4f5d
-  - enabled: 1
-    path: Assets/Nick/LoseScreen.unity
-    guid: 7bf4826e3033a78479344602fcca8b2c
-  - enabled: 1
-    path: Assets/Nick/WinScene.unity
-    guid: 327e8358d43637c498d6117bf8a657f1
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}
