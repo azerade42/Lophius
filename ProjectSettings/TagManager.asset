@@ -11,6 +11,7 @@ TagManager:
   - Walls
   - Trident
   - Crystal
+  - Rock
   layers:
   - Default
   - TransparentFX

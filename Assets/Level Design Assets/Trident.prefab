@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 8278412427927871909}
   - component: {fileID: 4993664790025924096}
   - component: {fileID: 7109487139192969930}
+  - component: {fileID: 6874747604191254423}
   m_Layer: 0
   m_Name: Trident
   m_TagString: Trident
@@ -251,3 +252,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6874747604191254423
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8766543177388768031}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.05396851, y: 0.06864954, z: 0.02300999}
+  m_Center: {x: 0.0046462044, y: -0.00024217839, z: 0.0015049987}
