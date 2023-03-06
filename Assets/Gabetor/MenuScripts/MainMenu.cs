@@ -22,6 +22,12 @@ public class MainMenu : MonoBehaviour
         // }
     }
 
+    public void Awake()
+    {
+        Cursor.lockState = CursorLockMode.None;
+
+    }
+
     public void PlayGame()
     {
         // animator.SetTrigger("Bite");

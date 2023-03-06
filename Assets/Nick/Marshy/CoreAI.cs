@@ -30,8 +30,11 @@ public class CoreAI : MonoBehaviour
     public bool _canSeePlayer;
 
     // _isChasingPlayer informs us when the AI actively knows the location of the player.
-    public bool _isChasingPlayer;
+    public bool _isChasingPlayer = false;
 
+    public bool _isDead = false;
+
+    private bool winFlag = false;
 
     // _IAmWaiting informs us when the AI is holding a position
     [SerializeField]
@@ -356,7 +359,14 @@ public class CoreAI : MonoBehaviour
         }
     private void ChasePlayer()
     {
-        _isChasingPlayer = true;
+        if (!winFlag)
+        {
+            _isChasingPlayer = true;
+        }
+        else
+        {
+            _isChasingPlayer = false;
+        }
         _navMeshAgent.destination = _player.transform.position;
         if (_canSeePlayer == true)
         {
@@ -419,7 +429,7 @@ public class CoreAI : MonoBehaviour
 
         if (collision.gameObject.tag == "beam")
         {
-            Debug.Log("Hit Mushy");
+            Debug.Log("Hit Marshy");
             //SceneManager.LoadScene("WinScene");
             StartCoroutine(WaitForWinScreen());
         }
@@ -435,6 +445,12 @@ public class CoreAI : MonoBehaviour
     {
         _speed = 0;
         _attackSpeed = 0;
+
+        winFlag = true;
+        _isChasingPlayer = false;
+        _isDead = true;
+        anim.SetBool("isDead", _isDead);
+
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene("WinScene");
     }
